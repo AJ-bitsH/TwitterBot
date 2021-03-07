@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Twitter Auth</title>
+  </head>
+
+  <body>
+    <script type="text/javascript" src="./App.js"></script>
+  </body>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+      apiKey: "AIzaSyARBrrh44-8mJ1MJIih9G0vU4wbhYEqczE",
+      authDomain: "twitterbot-690eb.firebaseapp.com",
+      projectId: "twitterbot-690eb",
+      storageBucket: "twitterbot-690eb.appspot.com",
+      messagingSenderId: "884229738310",
+      appId: "1:884229738310:web:e1d9d8296f3c0911249f47",
+      measurementId: "G-F5LCJVRB6L",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    function signin() {
+      var provider = new firebase.auth.TwitterAuthProvider();
+      firebase.auth().useDeviceLanguage();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          /** @type {firebase.auth.OAuthCredential} */
+          var credential = result.credential;
+
+          // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+          // You can use these server side with your app's credentials to access the Twitter API.
+          var token = credential.accessToken;
+          var secret = credential.secret;
+
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
+    }
+  </script>
+</html>
